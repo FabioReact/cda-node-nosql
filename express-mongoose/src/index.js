@@ -67,6 +67,14 @@ app.patch("/movies/:id", async (req, res) => {
 		console.log("Champs obtenus par l'utilisateur:", req.body)
 		console.log("Champs autorisés par l'utilisateur:", acceptedField)
 		const keys = Object.keys(req.body).filter(key => acceptedField.includes(key))
+		
+		/*const keys = Object.keys(req.body).filter(key => {
+			if (acceptedField.includes(key))
+				return true
+			else
+				return false
+		})*/
+
 		console.log("Keys:", keys)
 		const fieldsToUpdate = {}
 		keys.map(key => fieldsToUpdate[key] = req.body[key])
@@ -75,6 +83,16 @@ app.patch("/movies/:id", async (req, res) => {
 		res.json(doc)
 	} catch {
 		res.status(500).send("Erreur lors de la mise à jour")
+	}
+})
+
+app.delete("/movies/:id", async (req, res) => {
+	try {
+		const { id } = req.params
+		const deletedMovie = await Movie.findByIdAndDelete(id)
+		res.status(200).send(deletedMovie)
+	} catch {
+		res.status(500).send("Erreur lors de la suppression")
 	}
 })
 
