@@ -2,6 +2,8 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const Movie = require("../models/movie")
+const userRouter = require("./routers/users")
+const authRouter = require("./routers/auth")
 require("dotenv").config()
 // const dotenv = require('dotenv')
 // dotenv.config()
@@ -25,6 +27,8 @@ const app = express()
 
 // Définission des Middleware
 app.use(express.json()) // Nécessaire pour avoir accès à req.body
+app.use(userRouter) // Me permet d'inporter les routes définies dans userRouter
+app.use(authRouter)
 
 // Création des routes
 app.get("/movies", (req, res) => {
